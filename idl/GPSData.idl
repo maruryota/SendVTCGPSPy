@@ -1,0 +1,36 @@
+#ifndef GPSDataTypes_idl
+#define GPSDataTypes_idl
+
+#include "InterfaceDataTypes.idl"
+
+module GPS{
+    
+    struct GPSData
+    {
+        /// Longitude from GPS
+        double longitude;
+        /// Latitude from GPS
+        double latitude;
+        /// Variance of GPS Data
+        double variance;
+        /// Number of satellite
+        unsigned short satellite;
+        /// Data received timestamp [ms]
+        unsigned long receivedTimestamp;
+    };
+
+    /*!
+     * @struct TimedGPSData
+     * @brief GPS data include time and accuracy
+     */
+    struct TimedGPSData
+    {
+        /// Time stamp.
+        RTC::Time tm;
+        /// GpsData
+        GPSData Data;
+    };
+
+};
+
+#endif

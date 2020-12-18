@@ -1,0 +1,54 @@
+# SendVTCGpsPy CMake config file
+#
+# This file sets the following variables:
+# SendVTCGpsPy_FOUND - Always TRUE.
+# SendVTCGpsPy_INCLUDE_DIRS - Directories containing the SendVTCGpsPy include files.
+# SendVTCGpsPy_IDL_DIRS - Directories containing the SendVTCGpsPy IDL files.
+# SendVTCGpsPy_LIBRARIES - Libraries needed to use SendVTCGpsPy.
+# SendVTCGpsPy_DEFINITIONS - Compiler flags for SendVTCGpsPy.
+# SendVTCGpsPy_VERSION - The version of SendVTCGpsPy found.
+# SendVTCGpsPy_VERSION_MAJOR - The major version of SendVTCGpsPy found.
+# SendVTCGpsPy_VERSION_MINOR - The minor version of SendVTCGpsPy found.
+# SendVTCGpsPy_VERSION_REVISION - The revision version of SendVTCGpsPy found.
+# SendVTCGpsPy_VERSION_CANDIDATE - The candidate version of SendVTCGpsPy found.
+
+message(STATUS "Found SendVTCGpsPy-@PROJECT_VERSION@")
+set(SendVTCGpsPy_FOUND TRUE)
+
+find_package(<dependency> REQUIRED)
+
+#set(SendVTCGpsPy_INCLUDE_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@"
+#    ${<dependency>_INCLUDE_DIRS}
+#    )
+#
+#set(SendVTCGpsPy_IDL_DIRS
+#    "@CMAKE_INSTALL_PREFIX@/include/@PROJECT_NAME_LOWER@-@PROJECT_VERSION_MAJOR@/idl")
+set(SendVTCGpsPy_INCLUDE_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@"
+    ${<dependency>_INCLUDE_DIRS}
+    )
+set(SendVTCGpsPy_IDL_DIRS
+    "@CMAKE_INSTALL_PREFIX@/include/@CPACK_PACKAGE_FILE_NAME@/idl")
+
+
+if(WIN32)
+    set(SendVTCGpsPy_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_STATIC_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+else(WIN32)
+    set(SendVTCGpsPy_LIBRARIES
+        "@CMAKE_INSTALL_PREFIX@/@LIB_INSTALL_DIR@/@CMAKE_SHARED_LIBRARY_PREFIX@@PROJECT_NAME_LOWER@@CMAKE_SHARED_LIBRARY_SUFFIX@"
+        ${<dependency>_LIBRARIES}
+        )
+endif(WIN32)
+
+set(SendVTCGpsPy_DEFINITIONS ${<dependency>_DEFINITIONS})
+
+set(SendVTCGpsPy_VERSION @PROJECT_VERSION@)
+set(SendVTCGpsPy_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+set(SendVTCGpsPy_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+set(SendVTCGpsPy_VERSION_REVISION @PROJECT_VERSION_REVISION@)
+set(SendVTCGpsPy_VERSION_CANDIDATE @PROJECT_VERSION_CANDIDATE@)
+
