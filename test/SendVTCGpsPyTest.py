@@ -17,7 +17,6 @@ sys.path.append(".")
 import RTC
 import OpenRTM_aist
 
-import GPS
 
 # Import Service implementation class
 # <rtc-template block="service_impl">

@@ -1,4 +1,4 @@
-set(idls ${CMAKE_CURRENT_SOURCE_DIR}/GPSData.idl )
+set(idls )
 
 macro(_IDL_OUTPUTS _idl _dir _result)
     set(${_result} ${_dir}/${_idl}Skel.cpp ${_dir}/${_idl}Skel.h)

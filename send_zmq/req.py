@@ -8,6 +8,7 @@ class SendZMQRequest:
         self.host = host
         self.port = port
         self.tcp_address = f"tcp://{self.host}:{self.port}"
+        print(self.tcp_address)
 
     @staticmethod
     def make_socket():
@@ -18,6 +19,13 @@ class SendZMQRequest:
         sock.setsockopt(zmq.RCVTIMEO, 1000)
         sock.setsockopt(zmq.SNDTIMEO, 1000)
 
+        return sock
+
+    def make_sub_socket(self):
+        cxt = zmq.Context()
+        sock = cxt.socket(zmq.SUB)
+        sock.connect(self.tcp_address)
+        sock.setsockopt(zmq.SUBSCRIBE, ''.encode("utf-8"))
         return sock
 
     def submit_request(self, os: dict, flags: int = 0):
@@ -57,8 +65,7 @@ class SendZMQRequest:
         return res
 
     def receive_data(self):
-        sock = self.make_socket()
-        sock.connect(self.tcp_address)
+        sock = self.make_sub_socket()
         data = json.loads(sock.recv())
 
         return data

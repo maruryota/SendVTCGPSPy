@@ -16,8 +16,9 @@ sys.path.append(".")
 # Import RTM module
 import RTC
 import OpenRTM_aist
-
 import GPS
+from send_zmq import req
+
 
 # Import Service implementation class
 # <rtc-template block="service_impl">
@@ -128,7 +129,6 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 		# Set service consumers to Ports
 
 		# Set CORBA Service Ports
-
 		return RTC.RTC_OK
 
 	###
@@ -182,7 +182,12 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 	#
 	#
 	def onActivated(self, ec_id):
-		self.send_zmq_req = SendZMQRequest(self._host[0], self._port[0])
+		
+		self.send_zmq_req = req.SendZMQRequest(
+			host = self._host[0],
+			port = self._port[0]
+		)
+
 		return RTC.RTC_OK
 
 	###
@@ -195,9 +200,9 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 	## @return RTC::ReturnCode_t
 	##
 	##
-	#def onDeactivated(self, ec_id):
-	#
-	#	return RTC.RTC_OK
+	def onDeactivated(self, ec_id):
+	
+		return RTC.RTC_OK
 
 	##
 	#
@@ -211,16 +216,17 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 	#
 	def onExecute(self, ec_id):
 		# output position information [m]
+		print("execute")
 		data = self.send_zmq_req.receive_data()
-		self._d_GpsData.GPSData.lungitude = float(data["Report"]["Data"]["position"]["x"]) / 1000 / 110959.0097  # 緯度36度として計算
-		self._d_GpsData.GPSData.latitude = float(data["Report"]["Data"]["position"]["y"]) / 1000 / 90163.2924  # 緯度36度として計算
+		self._d_GpsData.GPSData.lungitude = 139.7 + float(data["Report"]["Data"]["position"]["x"]) / 1000 / 110959.0097  # 緯度36度として計算
+		self._d_GpsData.GPSData.latitude = 36 + float(data["Report"]["Data"]["position"]["y"]) / 1000 / 90163.2924  # 緯度36度として計算
 		self._d_GpsData.GPSData.variance = None
 		self._d_GpsData.GPSData.satellite = 4
 		self._d_GpsData.GPSData.receivedTimestamp = int(time.time())  # should fix to get correct timestamp. This is lazy.
 		RTC.setTimestamp(self._d_GpsData)
+		print(data)
 
 		self._GpsDataOut.write()
-	
 		return RTC.RTC_OK
 
 	###
