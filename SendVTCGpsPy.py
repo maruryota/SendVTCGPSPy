@@ -44,7 +44,7 @@ sendvtcgpspy_spec = ["implementation_id", "SendVTCGpsPy",
 		 "language",          "Python",
 		 "lang_type",         "SCRIPT",
 		 "conf.default.host", "localhost",
-		 "conf.default.port", "54323",
+		 "conf.default.port", "54321",
 		 "conf.default.endpoint", "PuffinBP_2",
 
 		 "conf.__widget__.host", "text",
@@ -92,9 +92,9 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 		"""
 		
 		 - Name:  port
-		 - DefaultValue: 54323
+		 - DefaultValue: 54321
 		"""
-		self._port = ['54323']
+		self._port = ['54321']
 		"""
 		
 		 - Name:  endpoint
@@ -117,7 +117,7 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 	def onInitialize(self):
 		# Bind variables and configuration variable
 		self.bindParameter("host", self._host, "localhost")
-		self.bindParameter("port", self._port, "54323")
+		self.bindParameter("port", self._port, "54321")
 		self.bindParameter("endpoint", self._endpoint, "PuffinBP_2")
 
 		# Set InPort buffers
