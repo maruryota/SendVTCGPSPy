@@ -12,6 +12,7 @@
 import sys
 import time
 sys.path.append(".")
+import logging
 
 # Import RTM module
 import RTC
@@ -217,14 +218,15 @@ class SendVTCGpsPy(OpenRTM_aist.DataFlowComponentBase):
 	def onExecute(self, ec_id):
 		# output position information [m]
 		print("execute")
+		logging.info("execute")
 		data = self.send_zmq_req.receive_data()
-		self._d_GpsData.GPSData.lungitude = 139.7 + float(data["Report"]["Data"]["position"]["x"]) / 1000 / 110959.0097  # 緯度36度として計算
-		self._d_GpsData.GPSData.latitude = 36 + float(data["Report"]["Data"]["position"]["y"]) / 1000 / 90163.2924  # 緯度36度として計算
-		self._d_GpsData.GPSData.variance = None
-		self._d_GpsData.GPSData.satellite = 4
-		self._d_GpsData.GPSData.receivedTimestamp = int(time.time())  # should fix to get correct timestamp. This is lazy.
-		RTC.setTimestamp(self._d_GpsData)
+		self._d_GpsData.Data.lungitude = 139.7 + float(data["Report"]["Data"]["position"]["x"]) / 1000 / 110959.0097  # 緯度36度として計算
+		self._d_GpsData.Data.latitude = 36 + float(data["Report"]["Data"]["position"]["y"]) / 1000 / 90163.2924  # 緯度36度として計算
+		self._d_GpsData.Data.variance = None
+		self._d_GpsData.Data.satellite = 4
+		self._d_GpsData.Data.receivedTimestamp = int(time.time())  # should fix to get correct timestamp. This is lazy.
 		print(data)
+		logging.info(data)
 
 		self._GpsDataOut.write()
 		return RTC.RTC_OK
